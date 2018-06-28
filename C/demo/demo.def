@@ -1,0 +1,4 @@
+LIBRARY	"demo"
+EXPORTS
+Java_personal_chencs_practice_jni_KeyNativeUtils_getKeyElements
+Java_personal_chencs_practice_jni_KeyNativeUtils_getKey
