@@ -1,6 +1,25 @@
 #include "personal_chencs_practice_jni_KeyNativeUtils.h"
 #include "KeyNativeUtilsAux.h"
 
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+	printf("JNI On Load...");
+
+	JNIEnv *env = NULL;
+	jint result;
+
+	if (vm->GetEnv((void **) &env, JNI_VERSION_1_8) != JNI_OK) {
+		result = -1;
+	} else {
+		result = JNI_VERSION_1_8;
+	}
+
+	return result;
+}
+
+JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved) {
+	printf("JNI On UnLoad...");
+}
+
 JNIEXPORT jint JNICALL Java_personal_chencs_practice_jni_KeyNativeUtils_getKeyElements
 (JNIEnv *env, jclass thiz, jbyteArray keyElement1, jintArray keyElement1Len, jbyteArray keyElement2, jintArray keyElement2Len)
 {
