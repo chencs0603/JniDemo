@@ -33,4 +33,13 @@ public class KeyNativeUtilsTest {
         System.out.println("key:" + Hex.encodeHexString(key));
     }
 
+    @Test
+    public void arraySplit() throws Exception {
+        byte[] arrays = Hex.decodeHex("1122334455667788990011223344556677889900".toCharArray());
+        byte[][] blockArrays = KeyNativeUtils.arraySplit(arrays, 0x06);
+        for (int i = 0; i < blockArrays.length; i++) {
+            System.out.println(Hex.encodeHex(blockArrays[i]));
+        }
+    }
+
 }

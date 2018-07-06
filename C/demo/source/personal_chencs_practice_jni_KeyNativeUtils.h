@@ -23,6 +23,14 @@ JNIEXPORT jint JNICALL Java_personal_chencs_practice_jni_KeyNativeUtils_getKeyEl
 JNIEXPORT jbyteArray JNICALL Java_personal_chencs_practice_jni_KeyNativeUtils_getKey
   (JNIEnv *, jclass, jbyteArray, jbyteArray);
 
+/*
+ * Class:     personal_chencs_practice_jni_KeyNativeUtils
+ * Method:    arraySplit
+ * Signature: ([BI)[[B
+ */
+JNIEXPORT jobjectArray JNICALL Java_personal_chencs_practice_jni_KeyNativeUtils_arraySplit
+  (JNIEnv *, jclass, jbyteArray, jint);
+
 #ifdef __cplusplus
 }
 #endif

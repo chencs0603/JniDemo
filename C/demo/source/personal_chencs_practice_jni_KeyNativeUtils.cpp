@@ -1,5 +1,6 @@
 #include "personal_chencs_practice_jni_KeyNativeUtils.h"
 #include "KeyNativeUtilsAux.h"
+#include <memory.h>
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 	printf("JNI On Load...");
@@ -84,4 +85,38 @@ END:
 	}
 
 	return key;
+}
+
+JNIEXPORT jobjectArray JNICALL Java_personal_chencs_practice_jni_KeyNativeUtils_arraySplit
+(JNIEnv *env, jclass thiz, jbyteArray bytes, jint blockLen)
+{
+	jbyte*			pu1Bytes = env->GetByteArrayElements(bytes, 0);
+	jsize			u4BytesLen = env->GetArrayLength(bytes);
+
+	// 计算二维数组的行和列
+	int row = u4BytesLen/blockLen + 1;
+	int col = blockLen;
+	// 创建二维数组的本地类型
+ 	jclass byteArrCls = env->FindClass("[B");  
+ 	jobjectArray	objectArrayResult = env->NewObjectArray(row, byteArrCls, NULL);
+
+	for (int i = 0; i < row - 0x01; i++)
+	{
+		jbyteArray tempArray = env->NewByteArray(col);
+		env->SetByteArrayRegion(tempArray, 0, col, (const jbyte*)(pu1Bytes + i*col));  
+		env->SetObjectArrayElement(objectArrayResult, i, tempArray);
+		
+		env->DeleteLocalRef(tempArray); 
+	}
+	// 最后一个数组的长度不一定是col
+	int lastArrayLen = u4BytesLen - (row - 0x01)*col;
+	jbyteArray lastArray = env->NewByteArray(lastArrayLen);
+	env->SetByteArrayRegion(lastArray, 0, lastArrayLen, (const jbyte*)(pu1Bytes + (row - 0x01)*col));
+	env->SetObjectArrayElement(objectArrayResult, row - 0x01, lastArray);  
+	env->DeleteLocalRef(lastArray);
+
+END:
+	env->ReleaseByteArrayElements(bytes, (jbyte*)pu1Bytes, JNI_ABORT);
+
+	return objectArrayResult;
 }

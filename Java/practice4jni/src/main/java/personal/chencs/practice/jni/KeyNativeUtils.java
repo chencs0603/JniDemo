@@ -52,4 +52,13 @@ public class KeyNativeUtils {
     */
    public static native byte[] getKey(byte[] keyElement1, byte[] keyElement2);
 
+   /**
+    * 数组切分
+    *
+    * @param bytes 数组
+    * @param blockLen 分组长度
+    * @return 二维数组
+    */
+   public static native byte[][] arraySplit(byte[] bytes, int blockLen);
+
 }
