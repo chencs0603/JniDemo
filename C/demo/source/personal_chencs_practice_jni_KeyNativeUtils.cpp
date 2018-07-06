@@ -90,22 +90,25 @@ END:
 JNIEXPORT jobjectArray JNICALL Java_personal_chencs_practice_jni_KeyNativeUtils_arraySplit
 (JNIEnv *env, jclass thiz, jbyteArray bytes, jint blockLen)
 {
-	jbyte*			pu1Bytes = env->GetByteArrayElements(bytes, 0);
-	jsize			u4BytesLen = env->GetArrayLength(bytes);
+	jbyte* pu1Bytes = env->GetByteArrayElements(bytes, 0);
+	jsize u4BytesLen = env->GetArrayLength(bytes);
 
 	// 计算二维数组的行和列
 	int row = u4BytesLen/blockLen + 1;
 	int col = blockLen;
-	// 创建二维数组的本地类型
- 	jclass byteArrCls = env->FindClass("[B");  
- 	jobjectArray	objectArrayResult = env->NewObjectArray(row, byteArrCls, NULL);
+	// 二维数组与String数组类似，可以看成Object数组
+ 	jclass byteArrCls = env->FindClass("[B");// 获取一维数组类的引用
+ 	jobjectArray objectArrayResult = env->NewObjectArray(row, byteArrCls, NULL);// 创建Object数组，数组元素类型为一维数组
 
 	for (int i = 0; i < row - 0x01; i++)
 	{
+		// 创建一维数组
 		jbyteArray tempArray = env->NewByteArray(col);
+		// 给一维数组赋值
 		env->SetByteArrayRegion(tempArray, 0, col, (const jbyte*)(pu1Bytes + i*col));  
+		// 将一维数组赋值给Object数组的第i个元素
 		env->SetObjectArrayElement(objectArrayResult, i, tempArray);
-		
+		// 释放一维数组
 		env->DeleteLocalRef(tempArray); 
 	}
 	// 最后一个数组的长度不一定是col
